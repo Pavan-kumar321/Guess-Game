@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+      text-align: center;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Guess the Number</h2>
+    <p>Guess a number between 1 to 100:</p>
+    <input type="number" id="guessInput" placeholder="Enter your guess">
+    <button onclick="checkGuess()">Submit</button>
+    <p id="message"></p>
+    <div id="playAgainSection" style="display:none;">
+      <p>Would you like to play again? (Yes/No)</p>
+      <button onclick="playAgain('yes')">Yes</button>
+      <button onclick="playAgain('no')">No</button>
+    </div>
+  </div>
+
+  <script>
+    let randomNum = Math.floor(Math.random() * 100) + 1;
+    let gameOver = false;
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById("guessInput").value);
+      const msg = document.getElementById("message");
+
+      // Input validation
+      if (isNaN(guess)) {
+        msg.textContent = "Invalid integer, please enter a valid number.";
+        return;
+      }
+
+      // Game logic
+      if (guess > randomNum) {
+        msg.textContent = "Your guess is too high. Guess again!";
+      } else if (guess < randomNum) {
+        msg.textContent = "Your guess is too low. Guess again!";
+      } else {
+        msg.textContent = "🎉 Congratulations! Your guess is correct.";
+        gameOver = true;
+        document.getElementById("playAgainSection").style.display = "block";
+      }
+
+      document.getElementById("guessInput").value = "";
+    }
+
+    function playAgain(option) {
+      const msg = document.getElementById("message");
+
+      if (option === "no") {
+        msg.textContent = "Thank you for playing. See you next time!";
+        document.getElementById("playAgainSection").style.display = "none";
+        document.getElementById("guessInput").disabled = true;
+      } else if (option === "yes") {
+        randomNum = Math.floor(Math.random() * 100) + 1;
+        msg.textContent = "A new number has been generated. Guess again!";
+        document.getElementById("playAgainSection").style.display = "none";
+        document.getElementById("guessInput").disabled = false;
+      } else {
+        msg.textContent = "Invalid opinion. Please enter Yes or No.";
+      }
+    }
+  </script>
+</body>
+</html>
